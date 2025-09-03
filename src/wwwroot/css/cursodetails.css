@@ -1,0 +1,40 @@
+﻿.btn-1 {
+    background-color: #FAB900;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.875rem; /* menor fonte */
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    border: none;
+}
+
+.btn-2 {
+    background-color: #FFF7E0;
+    color: #000000;
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.875rem; /* menor fonte */
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    border: none;
+}
+
+.tamanho-img{
+    width: 100%;
+    height: 280px;
+}
+
+.comecar-agora {
+    background-color: #457C48;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.875rem; /* menor fonte */
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    border: none;
+}

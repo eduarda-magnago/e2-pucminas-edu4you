@@ -1,0 +1,29 @@
+﻿.card-highlight {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.rating-stars {
+    color: #ffc107;
+}
+
+.btn-primary-custom {
+    background-color: #fbbf24;
+    border: none;
+    color: black;
+    font-weight: 600;
+}
+
+.btn-outline-custom {
+    border-color: #fbbf24;
+    color: #000;
+    font-weight: 600;
+}
+
+.avatar-img {
+    width: 100%;
+    border-radius: 1rem;
+    object-fit: cover;
+}
