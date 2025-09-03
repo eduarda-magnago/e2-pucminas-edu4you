@@ -1,0 +1,63 @@
+﻿﻿EXPLORANDO AMBIENTE (Gerenciador de Soluções)
+* Program.cs - é o que inicia a aplicação
+* appsettings.json - configuração de senhas pra banco de dados, serviços, email
+* MVC - Model View Controller
+* Controller - Recebe requisição HTTP, direciona pra view
+* Model - Configuração do banco de dados
+* View - Html + css
+* wwwroot - ficam os arquivos estáticos
+* Properties - configuração de execução da aplicação, qual porta vai ser executada
+* Dependencias > Pacotes - da pra ver todas bibliotecas baixadas
+
+LIVE SERVER
+* NuGet > instala Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation > adiciona um builder no program.cs
+
+OUTRAS BIBLIOTECAS NECESSÁRIAS
+* Microsoft.EntityFrameworkCore
+* Microsoft.EntityFrameworkCore.Tools
+* Microsoft.EntityFrameworkCore.SqlServer
+* BCrypt.Net-Next
+
+CRIAÇÃO MVC
+* Model
+* Controller
+* View
+
+MODEL
+* Serve para criar o modelo de dados, que vai virar um banco de dados
+* Botão direito pasta model > adicionar > classe > sempre deixar .cs no final do nome
+* Criar a AppDbContext.cs - vai servir para configurar o EntityFramework e gerar as tabelas
+* Depois do AppDbContext.cs, tem que criar a string de conexão la no appsettings.json
+* Adiciona um builder no program.cs
+
+CRIAR TABELA/PASTA MIGRATIONS
+* Ferramentas > NuGet > Console
+* PM> 
+
+add-migration M01-AddTableUsuario
+add-migration M02-AddTablePerfilProfessor
+add-migration M03-AddTableMatricula
+add-migration M04-AddTableAvaliacaoCurso
+add-migration M05-AddTableAvaliacaoProfessor
+add-migration M06-AddTableCurso
+add-migration M07-AddTableConteudo
+add-migration M08-AddTablePostagem
+
+* Vai criar o código que vai te permitir criar a tabela
+* Criado o código, vai em PM novamente e PM> update-database
+
+ATUALIZAR TABELAS
+drop-database
+add-migration
+update-database
+
+CONTROLLER
+* Botão direito pasta controller > adicionar > classe > sempre deixar .cs no final do nome
+* É aonde fazemos os CRUDES e lógica geral
+
+VIEW
+* Com o controller pronto, voce vai no Index (código) > Adicionar Exibição > Razor > Modelo = List
+* Ele vai gerar o HTML automaticamente
+
+FAZER CONTROLLER E VIEW AUTOMATICOS
+* Com o model pronto > pasta controllers > botão direto > adicionar > controlador
