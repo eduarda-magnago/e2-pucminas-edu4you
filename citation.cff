@@ -1,0 +1,24 @@
+message: Plataforma online que possibilite a troca de conhecimento
+title: Edu4You
+authors:
+  - family-names: Longhini
+    given-names: Carolina
+  - family-names: Azeredo Magnago
+    given-names: Eduarda
+  - family-names: Gavioli
+    given-names: Fernando
+  - family-names: Cardoso
+    given-names: Igor Gabriel
+  - family-names: Castiglieri Okamoto
+    given-names: Matheus Henrique 
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Faria
+    given-names: Claudio
+keywords:
+  - educação
+  - cursos
+  - aprendizado
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-1-e2-proj-int-t3-pmv-ads-2025-1-e2-proj-int-t3-edu4you
+version: 1.0.0
+date-released: 2025-05-22
