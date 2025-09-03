@@ -1,0 +1,162 @@
+@{
+    var isProfessor = User.HasClaim("IsProfessor", "true");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - edu_for_you</title>
+
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/edu_for_you.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body class="overflow-x-hidden">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-flex flex-column align-items-start p-3 sidebar">
+                <div class="sidebar__inner">
+                    <h1 class="my-5 fw-bold text-center">Edu4you.</h1>
+                    <ul class="nav flex-column gap-4 w-100">
+                        <li class="nav-item">
+                            @if (isProfessor)
+                            {
+                                <a class="nav-link text-light" asp-area="" asp-controller="Curso" asp-action="DashboardProfessor">
+                                    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-area="" asp-controller="Curso" asp-action="DashboardAluno">
+                                    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                                </a>
+                            }
+                        </li>
+
+                        @if (isProfessor)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Curso" asp-action="MeusCursos">
+                                    <i class="bi bi-mortarboard"></i> Gerenciar Cursos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Curso" asp-action="Create">
+                                    <i class="bi bi-pencil-square"></i> Criar Curso
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Matricula" asp-action="MeusCursos">
+                                    <i class="bi bi-mortarboard"></i> Meus cursos
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Curso" asp-action="Index">
+                                <i class="bi bi-camera-video"></i> Procure um novo Curso
+                            </a>
+                        </li>
+
+                        @if (isProfessor)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Usuario" asp-action="Details" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+                                    <i class="bi bi-person"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Usuario" asp-action="Edit" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+                                    <i class="bi bi-gear-fill"></i> Configurações
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Usuario" asp-action="Details" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+                                    <i class="bi bi-person"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Usuario" asp-action="Edit" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+                                    <i class="bi bi-gear-fill"></i> Configurações
+                                </a>
+                            </li>
+                        }
+
+                        @if (ViewData["MostrarLinkForum"] != null && (bool)ViewData["MostrarLinkForum"])
+                        {
+                            var forumId = ViewData["ForumIdCurso"];
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Forum" asp-action="Details" asp-route-id="@forumId">
+                                    <i class="bi bi-chat-square-text"></i> Fórum do Curso
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Usuario" asp-action="Login">
+                                <i class="bi bi-box-arrow-right"></i> Sair
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5></h5>
+                    <div class="d-flex align-items-center">
+                        <input id="pesquisa" type="text" class="form-control me-2" placeholder="Palavra-chave" />
+                        @{
+                            var fotoPerfil = User.Claims.FirstOrDefault(c => c.Type == "foto_perfil")?.Value ?? "/images/fotodousuario.PNG";
+                        }
+                        <img src="@fotoPerfil" class="avatar rounded-circle" alt="User Avatar" width="32" height="32" />
+
+                    </div>
+                </div>
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - edu_for_you -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        const pesquisa = document.getElementById("pesquisa");
+        pesquisa.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const controller = `@ViewContext.RouteData.Values["controller"]`;
+                const encodedQuery = encodeURIComponent(pesquisa.value);
+                switch (controller) {
+                    case "Curso":
+                        window.location.href = `/Curso/Search?query=${encodedQuery}`;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

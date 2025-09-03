@@ -1,0 +1,85 @@
+﻿@model IEnumerable<edu_for_you.Models.Curso>
+
+@{
+    ViewData["Title"] = "Search";
+	var query = ViewBag.query;
+}
+
+<style>
+    :root {
+		--primary: #769AC1;
+    }
+
+    .primary {
+		color: var(--primary);
+    }
+
+    .card-row {
+		display: flex;
+		overflow-x: auto;
+		padding: 10px 0;
+    }
+
+    .scroll-btn {
+		min-width: 40px;
+		max-width: 40px;
+		min-height: 40px;
+		max-height: 40px;
+		border-radius: 50%;
+		background-color: #eff4ff;
+		color: var(--primary);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: auto 10px;
+		cursor: pointer;
+		user-select: none;
+		pointer-events: all;
+	}
+
+	.scroll-btn button {
+		border: none;
+	}
+
+	.capa-curso {
+		min-width: 250px;
+		max-width: 250px;
+		min-height: 150px;
+		max-height: 150px;
+	}
+
+	.card-curso {
+		text-decoration: none;
+		width: fit-content;
+		padding: 0;
+		margin: 0em 8px;
+	}
+
+	.col {
+		max-width: 300px;
+	}
+</style>
+
+<h1>Resultados para &quot;@query&quot;</h1>
+
+<div class="container-fluid">
+	<div class="row align-content-center">
+@foreach (var curso in Model) {
+	var cursoCapa = curso.capa_curso ?? "/images/fallback.jpg";
+		<div class="col">
+				<a class="card card-curso" href="/Curso/Details/@curso.id">
+					<img src="@cursoCapa" class="card-img-top object-fit-co ver capa-curso">
+					<div class="card-body">
+						<p class="card-title fw-bold">@curso.nome</p>
+						<p class="card-subtitle text-body-secondary">por @curso.PerfilProfessor.Usuario.nome @curso.PerfilProfessor.Usuario.sobrenome</p>
+					</div>
+				</a>
+		</div>
+}
+	</div>
+</div>
+
+<script>
+	document.getElementById("pesquisa").value = `@query`;
+</script>
+

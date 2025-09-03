@@ -1,0 +1,231 @@
+﻿@model IEnumerable<edu_for_you.Models.Conteudo>
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Index";
+    var modulos = Model.GroupBy(c => c.titulo);
+    var canEdit = await AuthorizationService.AuthorizeAsync(User, "Professor");
+}
+
+<style>
+
+    .titulo-pagina {
+        color: #769AC1;
+        margin-top: 30px;
+    }
+
+    .linha-separadora {
+        border: none;
+        border-top: 2px solid #769AC1;
+        margin: 4px 0 20px 0;
+    }
+
+    /* Título do módulo igual ao H4 principal, cor azul, sem negrito */
+    .modulo-titulo {
+        color: #769AC1;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-top: 20px;
+        user-select: none;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin-bottom: 20px;
+    }
+
+    /* Linha com borda inferior */
+    .table tbody tr {
+        border-bottom: 1px solid #769AC1;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Hover azul claro suave */
+    .table tbody tr:hover {
+        background-color: #d4e1f4;
+    }
+
+    /* Células da lição sem borda */
+    .table tbody tr td {
+        border: none;
+        padding: 8px 8px;
+        vertical-align: middle;
+    }
+
+    /* Nome da lição com cor cinza escuro menos chamativo e cursor pointer */
+    .table tbody tr td.licao {
+        cursor: pointer;
+        width: 70%;
+        color: #444; /* cinza escuro */
+        transition: color 0.3s ease;
+        font-size: 14px;
+    }
+
+    /* Hover no nome da lição para dar feedback clicável */
+    .table tbody tr td.licao:hover {
+        color: #769AC1;
+        text-decoration: underline;
+    }
+
+    /* Coluna das ações no canto direito */
+    .acoes {
+        white-space: nowrap;
+        text-align: right;
+        width: 30%;
+        padding-right: 10px;
+        color: #CDD6E0;
+    }
+
+    /* Botões Editar e Excluir — fundo #CDD6E0, texto branco, sem borda */
+    .acoes a {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.85rem;
+        margin-left: 6px;
+        background-color: #CDD6E0;
+        color: white;
+        border: none;
+        transition: color 0.3s ease;
+    }
+
+    /* Cor ao passar o mouse: texto muda para #769AC1 */
+    .acoes a:hover {
+        background-color: #769AC1;
+    }
+
+    .painel-video {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        background-color: white;
+        border-left: 2px solid #ccc;
+        padding: 20px;
+        overflow-y: auto;
+        display: none;
+        z-index: 9999;
+    }
+
+    .painel-video iframe {
+        width: 100%;
+        height: 315px;
+        margin-bottom: 15px;
+    }
+
+    .painel-fechar {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    .painel-fechar button {
+        background-color: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .btn-criar-modulo {
+        background-color: #769AC1;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-criar-modulo:hover {
+        background-color: #5f83a7;
+    }
+</style>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+    <h4 class="titulo-pagina" style="margin: 0;">
+        @(ViewBag.NomeCurso != null ? $"Por Dentro do Curso: {ViewBag.NomeCurso}" : "Todos os conteúdos")
+    </h4>
+
+    @if (canEdit.Succeeded)
+    {
+        <a asp-action="Create" asp-route-cursoId="@ViewBag.CursoId" class="btn-criar-modulo">Criar</a>
+    }
+</div>
+<hr class="linha-separadora" />
+
+@{
+    int index = 0;
+}
+
+@foreach (var grupo in modulos)
+{
+    var tabelaId = $"tabelaModulo{index}";
+    <h4 class="modulo-titulo">Módulo: @grupo.Key</h4>
+
+    <table class="table conteudo-tabela" id="@tabelaId">
+        <tbody>
+            @foreach (var item in grupo)
+            {
+                <tr>
+                    <td class="licao" onclick="mostrarPainel('@item.video_curso', '@item.descricao?.Replace("'", "\\'")')">
+                        @item.licao
+                    </td>
+                    <td class="acoes">
+                        @if (canEdit.Succeeded)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.id" class="edit">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.id" class="delete">Excluir</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    index++;
+}
+
+<div id="painelVideo" class="painel-video">
+    <div class="painel-fechar">
+        <button onclick="fecharPainel()">✖</button>
+    </div>
+
+    <h4 class="titulo-pagina">Vídeo</h4>
+    <div id="videoContainer"></div>
+
+    <h4 class="titulo-pagina" style="margin-top: 20px;">Descrição</h4>
+    <div id="descricaoContainer" style="margin-top: 10px; font-size: 0.95rem; line-height: 1.5;"></div>
+</div>
+
+<script>
+    function mostrarPainel(videoUrl, descricao) {
+        const painel = document.getElementById('painelVideo');
+        const videoContainer = document.getElementById('videoContainer');
+        const descricaoContainer = document.getElementById('descricaoContainer');
+
+        if (videoUrl) {
+            const embedUrl = videoUrl.replace("watch?v=", "embed/");
+            videoContainer.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+        } else {
+            videoContainer.innerHTML = "<p>Vídeo não disponível.</p>";
+        }
+
+        descricaoContainer.innerText = descricao || "Sem descrição.";
+        painel.style.display = 'block';
+    }
+
+    function fecharPainel() {
+        const painel = document.getElementById('painelVideo');
+        painel.style.display = 'none';
+        document.getElementById('videoContainer').innerHTML = "";
+        document.getElementById('descricaoContainer').innerText = "";
+    }
+</script>
+

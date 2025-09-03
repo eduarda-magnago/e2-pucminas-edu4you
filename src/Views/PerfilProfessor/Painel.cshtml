@@ -1,0 +1,19 @@
+﻿@model IEnumerable<edu_for_you.Models.PerfilProfessor>
+
+@{
+    ViewData["Title"] = "Painel do Professor";
+    Layout = "~/Views/Shared/_LayoutProfessor.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <p>Bem-vindo ao painel do professor!</p>
+
+    <ul>
+        <li><a href="/Curso/Create">Criar novo curso</a></li>
+        <li><a href="/Curso/MeusCursos">Gerenciar meus cursos</a></li>
+        <li><a href="/Conteudo/Create">Adicionar conteúdo</a></li>
+        <li><a href="/Avaliacao">Ver avaliações</a></li>
+    </ul>
+</div>

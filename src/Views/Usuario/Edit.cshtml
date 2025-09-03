@@ -1,0 +1,124 @@
+﻿@model edu_for_you.Models.Usuario
+
+@{
+    ViewData["Title"] = "Configurações";
+}
+
+<h2 class="fw-bold mb-4" style="color: #769AC1;">Configurações</h2>
+
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="id" />
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <div class="d-flex align-items-center gap-4 flex-wrap">
+            <div class="user-photo-frame">
+                <img src="@(string.IsNullOrEmpty(Model.foto_perfil) ? "/images/fotodousuario.PNG" : Model.foto_perfil)" alt="Foto do usuário" class="user-photo-square">
+            </div>
+            <div class="d-flex flex-column user-details">
+                <label>
+                    <h5 class="mb-1">@Model.nome @Model.sobrenome</h5>
+                    <small>@Model.email</small>
+                </label>
+            </div>
+        </div>
+        <button type="button" class="btn btn-photo align-self-center" onclick="document.getElementById('uploadFoto').click();">Trocar Foto</button>
+        <input type="file" name="foto_perfil" id="uploadFoto" accept="image/*" style="display: none;">
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <label asp-for="nome" class="form-label">Primeiro Nome</label>
+            <input asp-for="nome" class="form-control custom-input">
+            <span asp-validation-for="nome" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="sobrenome"  class="form-label">Sobrenome</label>
+            <input asp-for="sobrenome" type="text" class="form-control custom-input">
+            <span asp-validation-for="sobrenome" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="genero"  class="form-label">Gênero</label>
+            <select asp-for="genero" class="form-control custom-input">
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outro">Outro</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="dataNascimento" class="form-label">Data de nascimento</label>
+            <input asp-for="dataNascimento" type="date" class="form-control custom-input">
+        </div>
+        <div class="col-md-6">
+            <label asp-for="nivelEnsino" class="form-label">Nível de ensino</label>
+            <select asp-for="nivelEnsino" class="form-control custom-input">
+                <option>Médio</option>
+                <option>Superior</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="areaInteresse" class="form-label">Área de interesse</label>
+            <select asp-for="areaInteresse" class="form-control custom-input">
+                <option>Programação</option>
+                <option>Educação</option>
+                <option>Gestão e Negócios</option>
+                <option>Idiomas</option>
+                <option>Ambiente e Saúde</option>
+                <option>Outro</option>
+            </select>
+        </div>
+        
+        <div class="col-md-6">
+            <label asp-for="email" class="form-label">E-mail</label>
+            <input asp-for="email" class="form-control custom-input" />
+            <span asp-validation-for="email"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="senha" class="form-label">Nova senha</label>
+            <input asp-for="senha" type="password" class="form-control custom-input" />
+            <span asp-validation-for="senha"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Sobre" class="form-label">Escreva um pouco sobre você</label>
+            <textarea asp-for="Sobre" class="form-control custom-input"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Certificacoes" class="form-label">Certificações Profissionais</label>
+            <textarea asp-for="Certificacoes" class="form-control custom-input"></textarea>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-end mb-2 gap-3">
+        <button class="btn btn-yellow">Ver Perfil</button>
+        <button class="btn btn-photo align-self-center" type="submit">Salvar</button>
+    </div>
+
+</form>
+   
+<script>
+    document.getElementById('uploadFoto').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Atualiza a visualização da imagem do usuário
+                document.querySelector('.user-photo-square').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+
+

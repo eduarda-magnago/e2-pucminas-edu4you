@@ -1,0 +1,53 @@
+﻿@model edu_for_you.Models.Forum
+@{
+    ViewData["Title"] = "Detalhes do Fórum";
+}
+
+<style>
+    .btn-topico {
+        background-color: #769AC1;
+        color: #ffffff;
+        border-radius: 4px;
+        padding: 10px 12px;
+        font-size: 0.875rem; /* menor fonte */
+        text-decoration: none;
+        margin: 2px;
+        display: inline-block;
+    }
+</style>
+
+<h1>@Model.Titulo</h1>
+<p><strong>Curso:</strong> @Model.Curso?.nome</p>
+<p><strong>Descrição:</strong> @Model.Descricao</p>
+<h2>Tópicos</h2>
+
+@if (Model.Topicos != null && Model.Topicos.Any())
+{
+    <ul>
+        @foreach (var topico in Model.Topicos)
+        {
+            <li class="list-group-item">
+                <a asp-controller="Topico"
+                   asp-action="Details"
+                   asp-route-id="@topico.Id">
+                    <strong>@topico.Titulo</strong>
+                </a>
+                <br />
+                <small class="text-muted">
+                    Criado por @topico.Autor em @topico.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                </small>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Não há tópicos ainda.</p>
+}
+
+<a asp-controller="Topico"
+   asp-action="Create"
+   asp-route-forumId="@Model.Curso.id"
+   class="btn-topico">
+    Adicionar Tópico
+</a>

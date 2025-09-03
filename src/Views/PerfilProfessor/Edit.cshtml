@@ -1,0 +1,125 @@
+﻿@model edu_for_you.Models.PerfilProfessor
+
+@{
+    ViewData["Title"] = "Configurações";
+}
+
+<h2 class="fw-bold mb-4" style="color: #769AC1;">Configurações</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <div class="d-flex align-items-center gap-4 flex-wrap">
+        <div class="user-photo-frame">
+            <img src="foto-do-usuario.png" alt="Foto do usuário" class="user-photo-square">
+        </div>
+        <div class="d-flex flex-column user-details">
+            <h5 class="mb-1">Professor1 da Silva</h5>
+            <small>professor1@gmail.com</small>
+        </div>
+    </div>
+    <button class="btn btn-photo align-self-center" onclick="document.getElementById('uploadFoto').click();">Trocar Foto</button>
+    <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+</div>
+
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <label class="form-label">Primeiro Nome</label>
+        <input type="text" class="form-control custom-input" value="Professor1">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Sobrenome</label>
+        <input type="text" class="form-control custom-input" value="da Silva">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Redes Sociais</label>
+        <input type="text" class="form-control custom-input" value="Entre com o link da rede social">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Gênero</label>
+        <select class="form-control custom-input">
+            <option selected>Feminino</option>
+            <option>Masculino</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Possui graduação?</label>
+        <select class="form-control custom-input">
+            <option selected>Sim</option>
+            <option>Não</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Línguas faladas</label>
+        <select class="form-control custom-input">
+            <option selected>Inglês</option>
+            <option>Espanhol</option>
+            <option>Alemão</option>
+            <option>Francês</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Anos de experiência</label>
+        <select class="form-control custom-input">
+            <option selected>1 ano</option>
+            <option>2 anos</option>
+            <option>3 anos</option>
+            <option>+5 anos</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Disponibilizar e-mail para aulas particulares?</label>
+        <select class="form-control custom-input">
+            <option selected>Sim</option>
+            <option>Não</option>
+        </select>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-save">Salvar</button>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <h6 class="fw-semibold">Meu endereço de e-mail</h6>
+        <div class="d-flex align-items-start gap-3 mb-3">
+            <i class="bi bi-envelope-check-fill fs-5 text-primary"></i>
+            <div>
+                <p class="mb-0">professor1@gmail.com</p>
+                <small class="text-muted">1 mês atrás</small>
+            </div>
+        </div>
+        <button class="btn btn-yellow">+ Adicionar E-mail</button>
+</div>
+
+<div class="col-md-6">
+    <h6 class="fw-semibold">Trocar Senha</h6>
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input type="password" class="form-control custom-input" placeholder="Senha atual">
+        </div>
+        <div class="col-md-6">
+            <input type="password" class="form-control custom-input" placeholder="Nova senha">
+        </div>
+    </div>
+    <button class="btn btn-yellow">Trocar de senha</button>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    document.getElementById('uploadFoto').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Troca a imagem da tela pela nova imagem escolhida
+                document.querySelector('.user-photo-square').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

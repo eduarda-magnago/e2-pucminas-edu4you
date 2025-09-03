@@ -1,0 +1,93 @@
+﻿@model edu_for_you.Models.PerfilProfessor
+
+@{
+    ViewData["Title"] = "Perfil Professor";
+}
+
+<link rel="stylesheet" href="~/css/meuperfil.css" />
+
+<h2 class="fw-bold mb-4" style="color: #769AC1;">Meu Perfil</h2>
+
+<div class="row">
+    <!-- Coluna esquerda -->
+    <div class="col-lg-6">
+        <div class="info-box p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                <div class="d-flex align-items-center gap-4 flex-wrap">
+                    <div class="user-photo-frame">
+                        <img src="@Model." alt="Foto do usuário" class="user-photo-square" />
+                    </div>
+                    <div class="d-flex flex-column user-details">
+                        <h5 class="mb-1">@Model.id @Model.id_usuario</h5>
+                        <small>@Model.email_contato</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <strong>Cursos Inscritos</strong>
+                    <p class="text-danger">1</p>
+                </div>
+        
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.areaAtuacao)</strong>
+                    <p>@Html.DisplayFor(model => model.areaAtuacao)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.formacao_academica)</strong>
+                    <p>@Html.DisplayFor(model => model.formacao_academica)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.experiencia_profissional)</strong>
+                    <p>@Html.DisplayFor(model => model.experiencia_profissional)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.habilidades)</strong>
+                    <p>@Html.DisplayFor(model => model.habilidades)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.idiomas)</strong>
+                    <p>@Html.DisplayFor(model => model.idiomas)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.linkedin)</strong>
+                    <p>@Html.DisplayFor(model => model.linkedin)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.avaliacao_media)</strong>
+                    <p>@Html.DisplayFor(model => model.avaliacao_media)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cursos inscritos -->
+        <div class="info-box p-4">
+            <h5 class="fw-semibold mb-3">Cursos inscritos (1)</h5>
+            <div class="d-flex gap-3 align-items-start">
+                <img src="~/images/curso-cozinha.jpg" class="rounded" width="110" />
+                <div>
+                    <strong>Cozinha Avançada | Teoria e Prática</strong>
+                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna direita -->
+    <div class="col-lg-6">
+        <div class="sobre-box p-3 rounded mb-4">
+            <h6 class="fw-semibold">biografia @Model.id</h6>
+            <p>@Model.biografia</p>
+        </div>
+
+        <div class="sobre-box p-3 rounded">
+            <h6 class="fw-semibold">Certificações profissionais relevantes</h6>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

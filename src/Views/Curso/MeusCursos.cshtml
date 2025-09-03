@@ -1,0 +1,45 @@
+﻿@model IEnumerable<edu_for_you.Models.Curso>
+
+@{
+    ViewData["Title"] = "Cursos do Professor";
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/cursoscriados.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<h2 class="mb-4">Cursos Criados</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+       Nenhum curso foi criado, gostaria de criar um agora?
+        <a asp-controller="Curso" asp-action="Create" class="btn btn-warning btn-sm">Criar um curso</a>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var curso in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    @if (!string.IsNullOrEmpty(curso.capa_curso))
+                    {
+                        <img class="card-img-top tamanho-foto" src="@curso.capa_curso" alt="Capa do curso">
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@curso.nome</h5>
+                        <p class="card-text text-muted">@curso.categoria</p>
+                        <p class="card-text small">Criado em @curso.data_criacao.ToString("dd/MM/yyyy")</p>
+                        <a asp-action="Details" asp-route-id="@curso.id" class="btn-verdetalhes">Detalhes</a>
+                        <a asp-controller="Conteudo" asp-action="Index" asp-route-cursoId="@curso.id" class="btn-verconteudo">Conteúdo</a>
+                        <a asp-action="Edit" asp-route-id="@curso.id" class="btn-editar">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@curso.id" class="btn-excluir">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

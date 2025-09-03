@@ -1,0 +1,28 @@
+﻿@model IEnumerable<edu_for_you.Models.Forum>
+@{
+    ViewData["Title"] = "Fóruns";
+}
+
+<h1>Fóruns</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Curso</th>
+            <th>Título</th>
+            <th>Criado Em</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var forum in Model)
+        {
+            <tr>
+                <td>@forum.Curso?.nome</td>
+                <td>@forum.Titulo</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@forum.id_curso" class="btn btn-sm btn-primary">Ver</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

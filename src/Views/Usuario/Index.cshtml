@@ -1,0 +1,128 @@
+﻿@model IEnumerable<edu_for_you.Models.Curso>
+
+@{
+    ViewData["Title"] = "Dashboard do Aluno";
+
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/dashboard-profealuno.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <div class="row">
+            <!-- Coluna esquerda -->
+            <div class="col-md-8">
+                <!-- Saudação -->
+                <div class="card-custom d-flex align-items-center justify-content-between" style="height: 120px;">
+                    <div>
+                <h4 class="nome-ola">Olá, @User.Identity.Name!</h4>
+                        <p class="text-muted">É bom te ver novamente.</p>
+                    </div>
+            <img class="imagem-principal"  src="~/images/Illustration.png" alt="Imagem Login" />
+                </div>
+
+                <!-- Curso em andamento (exemplo visual fixo) -->
+                @{
+                    var cursoMaisRecente = ViewData["CursoMaisRecente"] as edu_for_you.Models.Curso;
+                }
+
+                @if (cursoMaisRecente != null)
+                {
+                    <div class="card-curso">
+                        <div class="curso-info">
+                            <img src="@(!string.IsNullOrEmpty(cursoMaisRecente.capa_curso) ? cursoMaisRecente.capa_curso : "https://via.placeholder.com/60")" alt="Imagem Curso">
+                            <div>
+                                <h5 class="mb-1 text-primary">@cursoMaisRecente.nome</h5>
+                                <small class="text-muted">by @(cursoMaisRecente.PerfilProfessor?.Usuario?.nome ?? "Professor")</small>
+                            </div>
+                        </div>
+                        <div class="curso-detalhes">
+                            <div class="progress-circle">Novo</div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="@Url.Action("Details", "Curso", new { id = cursoMaisRecente.id })" class="btn btn-primary">Continue</a>
+                            <i class="bi bi-arrow-left-circle"></i>
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </div>
+                    </div>
+                }
+
+
+                <h4 class="mb-3">Cursos</h4>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="active">Meus Cursos</div>
+                    <div>Favoritos</div>
+                    <div>Finalizados</div>
+                </div>
+
+                <!-- Cursos do aluno (dinâmicos) -->
+                @foreach (var curso in Model)
+                {
+                    <div class="card-curso">
+                        <div class="curso-info">
+                            <img src="@((!string.IsNullOrEmpty(curso.capa_curso)) ? curso.capa_curso : "https://via.placeholder.com/60")" alt="Imagem Curso">
+                            <div>
+                                <h5 class="mb-1 fw-semibold">@curso.nome</h5>
+                                <small class="text-muted">by @(curso.PerfilProfessor?.Usuario?.nome ?? "Professor")</small>
+                            </div>
+                        </div>
+                        <div class="curso-detalhes">
+                            <i class="bi bi-clock"></i> @curso.carga_horaria h &nbsp;
+                            <i class="bi bi-calendar-event"></i> @curso.data_criacao.ToShortDateString()
+                        </div>
+                <a href="@Url.Action("Details", "Curso", new { id = curso.id })" class="btn-pagina">Ver Curso</a>
+                    </div>
+                }
+            </div>
+
+            <!-- Coluna direita -->
+            <div class="col-md-4">
+                <div class="d-flex gap-3 mb-4">
+                    <div class="status-card">
+                        <h2>0</h2>
+                        <p class="text-muted">Cursos completos</p>
+                    </div>
+                    <div class="status-card">
+                        <h2>@ViewData["CursosEmProgresso"]</h2>
+                        <p class="text-muted">Cursos em progresso</p>
+                    </div>
+
+                </div>
+
+                <!-- Fóruns do aluno (dinâmicos) -->
+                <h4 class="mb-3">Fóruns Inscritos</h4>
+
+                @{
+                    var foruns = ViewData["ForunsInscritos"] as List<edu_for_you.Models.Forum>;
+                }
+
+                @if (foruns != null && foruns.Any())
+                {
+                    foreach (var forum in foruns)
+                    {
+                        <a asp-controller="Forum" asp-action="Details" asp-route-id="@forum.Id" class="card-custom text-decoration-none text-dark d-block">
+                            <i class="bi bi-chat-square-text"></i> @forum.Titulo
+                        </a>
+
+                    }
+                }
+                else
+                {
+                    <div class="card-custom text-muted">
+                        Nenhum fórum disponível no momento.
+                    </div>
+                }
+                <!-- Fóruns do aluno (dinâmicos) FIM-->
+
+                <div class="card-custom mt-4 d-flex align-items-center gap-3">
+                    <div>
+                        <h5>Quer criar um curso também?</h5>
+                        <p class="text-muted">Crie uma conta como professor e publique conteúdos.</p>
+                <a href="/PerfilProfessor/Create" class="btn-pagina">Criar agora</a>
+                    </div>
+                    <img class="img-book" src="~/images/Frame.png" alt="Imagem" />
+                </div>
+            </div>
+        </div>

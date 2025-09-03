@@ -1,0 +1,40 @@
+﻿@model IEnumerable<edu_for_you.Models.Matricula>
+
+@{
+    ViewData["Title"] = "Meus Cursos";
+}
+
+<style>
+    .btn-pagina {
+        background-color: #769AC1;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+</style>
+
+<h2>Meus Cursos</h2>
+
+@if (!Model.Any())
+{
+    <p>Você ainda não está matriculado em nenhum curso.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var matricula in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@matricula.Curso.nome</h5>
+                        <p class="card-text">Carga horária: @matricula.Curso.carga_horaria horas</p>
+                        <p class="card-text">Data da matrícula: @matricula.data_matricula.ToShortDateString()</p>
+                        <a href="@Url.Action("Index", "Conteudo", new { cursoId = matricula.id_curso })" class="btn-pagina">Ver curso</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

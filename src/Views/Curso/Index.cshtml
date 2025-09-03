@@ -1,0 +1,102 @@
+﻿@using edu_for_you.Utils
+@model Dictionary<edu_for_you.Models.Categoria, IEnumerable<edu_for_you.Models.Curso>>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    :root {
+		--primary: #769AC1;
+    }
+
+    .primary {
+		color: var(--primary);
+    }
+
+    .card-row {
+		display: flex;
+		overflow-x: auto;
+		padding: 10px 0;
+    }
+
+    .scroll-btn {
+		min-width: 40px;
+		max-width: 40px;
+		min-height: 40px;
+		max-height: 40px;
+		border-radius: 50%;
+		background-color: #eff4ff;
+		color: var(--primary);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: auto 10px;
+		cursor: pointer;
+		user-select: none;
+		pointer-events: all;
+	}
+
+	.scroll-btn button {
+		border: none;
+	}
+
+	.capa-curso {
+		min-width: 250px;
+		max-width: 250px;
+		min-height: 150px;
+		max-height: 150px;
+	}
+
+	.card-curso {
+		text-decoration: none;
+		width: auto;
+		padding: 0;
+		margin: 0em 8px;
+	}
+</style>
+
+<h1 class="primary">Procure um novo curso</h1>
+
+<!--<p>
+<a asp-action="Create">Create New</a>
+</p>-->
+
+@foreach (var grupo in Model)
+{
+    var nomeCategoria = grupo.Key.GetDisplayName();
+    var cursos = grupo.Value;
+
+    <div class="container-fluid py-4">
+        <h4 class="primary">@nomeCategoria</h4><br />
+        <div class="align-items-center row flex-nowrap">
+            <div class="scroll-btn mx-2 col-auto" onclick="scrollRow('@nomeCategoria', -500)">&lt;</div>
+            <div class="col" style="min-width: 0px;">
+                <div id="@nomeCategoria" class="row flex-nowrap overflow-auto">
+					@foreach (var curso in cursos)
+					{
+						var cursoCapa = curso.capa_curso ?? "/images/fallback.jpg";
+
+						<a class="col-2 card card-curso" asp-controller="Curso" asp-action="Details" asp-route-id="@curso.id">
+							<img src="@cursoCapa" class="card-img-top object-fit-cover capa-curso">
+							<div class="card-body">
+								<p class="card-title fw-bold">@curso.nome</p>
+								<p class="card-subtitle text-body-secondary">por @curso.PerfilProfessor.Usuario.nome @curso.PerfilProfessor.Usuario.sobrenome</p>
+							</div>
+						</a>
+					}
+				</div>
+            </div>
+            <div class="scroll-btn mx-2 col-auto" onclick="scrollRow('@nomeCategoria', 500)">&gt;</div>
+        </div>
+    </div>
+}
+
+<script>
+	function scrollRow (id, amount) {
+		const el = document.getElementById(id);
+		if (el) {
+			el.scrollBy({ left: amount, behavior: 'smooth' });
+		}
+	}
+</script>

@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSign.cshtml";
+}
+
+@model edu_for_you.ViewModels.PerfilProfessorUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/professorcreate.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<hr />
+<div class="login-container">
+    <!-- Imagem lateral -->
+    <div class="login-left">
+        <img src="~/images/cadastrofoto.png" alt="Imagem Login" />
+    </div>
+
+    <div class="login-right">
+        <div class="login-form">
+            <h1>Criar nova Conta</h1>
+            <h4>Sou Professor</h4>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="usuario.nome" class="control-label"></label>
+                    <input asp-for="usuario.nome" class="form-control" />
+                    <span asp-validation-for="usuario.nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.sobrenome" class="control-label"></label>
+                    <input asp-for="usuario.sobrenome" class="form-control" />
+                    <span asp-validation-for="usuario.sobrenome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.email" class="control-label"></label>
+                    <input asp-for="usuario.email" class="form-control" />
+                    <span asp-validation-for="usuario.email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.senha" class="control-label"></label>
+                    <input asp-for="usuario.senha" class="form-control" />
+                    <span asp-validation-for="usuario.senha" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.dataNascimento" class="control-label"></label>
+                    <input asp-for="usuario.dataNascimento" class="form-control" type="date" />
+                    <span asp-validation-for="usuario.dataNascimento" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.genero"></label>
+                    <select asp-for="usuario.genero" class="form-control">
+                        <option>Masculino</option>
+                        <option>Feminino</option>
+                        <option>Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.areaInteresse"></label>
+                    <select asp-for="usuario.areaInteresse" class="form-control">
+                        <option>Programação</option>
+                        <option>Educação</option>
+                        <option>Gestão e Negócios</option>
+                        <option>Idiomas</option>
+                        <option>Ambiente e Saúde</option>
+                        <option>Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="perfilProfessor.idiomas" class="control-label"></label>
+                    <input asp-for="perfilProfessor.idiomas" class="form-control" />
+                    <span asp-validation-for="perfilProfessor.idiomas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="perfilProfessor.linkedin" class="control-label"></label>
+                    <input asp-for="perfilProfessor.linkedin" class="form-control" />
+                    <span asp-validation-for="perfilProfessor.linkedin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="usuario.nivelEnsino"></label>
+                    <select asp-for="usuario.nivelEnsino" class="form-control">
+                        <option>Sim</option>
+                        <option>Não</option>
+                    </select>
+			    </div>
+			    <div class="form-group">
+				    <label asp-for="perfilProfessor.experiencia_profissional"></label>
+				    <select asp-for="perfilProfessor.experiencia_profissional" class="form-control">
+					    <option>1 ano</option>
+					    <option>2 anos</option>
+					    <option>3 anos</option>
+					    <option>+ 5 anos</option>
+				    </select>
+			    </div>
+			    <div class="form-group">
+                    <input type="submit" value="Criar Conta" class="login-btn" />
+			    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

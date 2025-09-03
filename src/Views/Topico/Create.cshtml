@@ -1,0 +1,66 @@
+﻿@model edu_for_you.Models.Topico
+@{
+    ViewData["Title"] = "Adicionar Tópico";
+    var forumId = (int)ViewBag.ForumId;
+    var forumTitulo = (string)ViewBag.ForumTitulo;
+}
+<style>
+    .btn-save {
+        background-color: #769AC1;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-save:hover {
+        background-color: #5c7aa1;
+        color: #ffffff;
+    }
+
+    .btn-yellow {
+        background-color: rgba(250, 185, 0, 0.85);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-yellow:hover {
+        background-color: rgba(250, 185, 0, 1);
+        color: #ffffff;
+    }
+
+    .botoes-form {
+        margin-top: 20px;
+    }
+</style>
+
+
+<h1>Adicionar Tópico em “@forumTitulo”</h1>
+
+<form asp-action="Create" asp-controller="Topico" asp-route-forumId="@forumId" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Titulo">Título</label>
+        <input asp-for="Titulo" class="form-control" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Conteudo">Conteúdo</label>
+        <textarea asp-for="Conteudo" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Conteudo" class="text-danger"></span>
+    </div>
+    <a asp-controller="Forum" asp-action="Details" asp-route-id="@forumId" class="btn-yellow botoes-form">Voltar ao Fórum</a>
+    <button type="submit" class="btn-save botoes-form">Salvar</button>
+
+</form>

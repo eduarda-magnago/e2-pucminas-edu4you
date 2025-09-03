@@ -1,0 +1,94 @@
+﻿@model edu_for_you.Models.Curso
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<style>
+    .btn-save {
+        background-color: #769AC1;
+        color: white;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-save:hover {
+        background-color: #5c7aa1;
+        color: #ffffff;
+    }
+
+    .btn-yellow {
+        background-color: rgba(250, 185, 0, 0.85);
+        color: white;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-yellow:hover {
+        background-color: rgba(250, 185, 0, 1);
+        color: #ffffff;
+        text-decoration: none;
+    }
+</style>
+
+
+<h1>Deletar</h1>
+
+<h3>Você tem certeza que gostaria de excluir esse curso?</h3>
+<div>
+    <h4>Excluir curso</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PerfilProfessor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PerfilProfessor.formacao_academica)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.descricao)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.descricao)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.categoria)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.categoria)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.carga_horaria)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.carga_horaria)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.data_criacao)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.data_criacao)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <a asp-action="Index" class="btn-yellow">Voltar</a>
+        <input type="submit" value="Deletar" class="btn-save" />  
+    </form>
+</div>

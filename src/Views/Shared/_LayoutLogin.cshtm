@@ -1,0 +1,6 @@
+﻿namespace edu_for_you.Views.Shared
+{
+    public class _LayoutLogin
+    {
+    }
+}

@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSign.cshtml";
+}
+@model edu_for_you.Models.Usuario
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/login.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="login-container">
+    <!-- Imagem lateral -->
+    <div class="login-left">
+        <img src="~/images/login.png" alt="Imagem Login" />
+    </div>
+
+    <!-- Formulário -->
+    <div class="login-right">
+        <div class="login-form">
+            <h3 class="login-title">Bem-vindo de volta ao Edu4you!</h3>
+
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Campo Email -->
+                <div class="input-group">
+                    <span class="input-icon">
+                        <img src="@Url.Content("~/images/o-email.png")" alt="ícone de email" />
+                    </span>
+                    <input asp-for="email" class="form-control" placeholder="example@email.com" required />
+                </div>
+                <span asp-validation-for="email" class="text-danger"></span>
+
+                <!-- Campo Senha -->
+                <div class="input-group">
+                    <span class="input-icon">
+                        <img src="@Url.Content("~/images/trancar.png")" alt="ícone de cadeado" />
+                    </span>
+                    <input asp-for="senha" type="password" class="form-control" placeholder="********" required />
+                </div>
+                <span asp-validation-for="senha" class="text-danger"></span>
+
+                <!-- Botão Entrar -->
+                <div class="form-group">
+                    <button type="submit" class="login-btn">
+                        <span>Entrar</span>
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <p class="text-center">
+                    Não possui uma conta? <a asp-controller="Usuario" asp-action="Create"></a>
+                    <div class="button-toggle">
+                        <a asp-controller="Usuario" asp-action="Create" class="btn btn-toggle">Cadastrar como Aluno</a>
+                        <a asp-controller="PerfilProfessor" asp-action="Create" class="btn btn-toggle">Cadastrar como Professor</a>
+                    </div>
+                </p>
+
+                <h3 class="text-danger text-center">@ViewBag.Message</h3>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

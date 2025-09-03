@@ -1,0 +1,105 @@
+﻿@model IEnumerable<edu_for_you.Models.Curso>
+
+@{
+    ViewData["Title"] = "Dashboard do Professor";
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/dashboard-profealuno.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <div class="row">
+            <!-- Coluna principal -->
+            <div class="col-md-8">
+
+                <!-- Saudação -->
+                <div class="card-custom d-flex align-items-center justify-content-between" style="height: 120px;">
+                    <div>
+                <h4 class="nome-ola">Olá, @User.Identity.Name!</h4>
+                        <p class="text-muted">É bom te ver novamente.</p>
+                    </div>
+                    <img class="imagem-principal"  src="~/images/Illustration.png" alt="Imagem Login" />
+                </div>
+
+                
+
+                <h4 class="mb-3">Cursos</h4>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="active">Meus Cursos</div>
+                    <div>Favoritos</div>
+                    <div>Finalizados</div>
+                </div>
+
+                <!-- CURSOS DO PROFESSOR (dinâmicos) -->
+                @foreach (var curso in Model)
+                {
+                    <div class="card-curso">
+                        <div class="curso-info">
+                            <img src="@((!string.IsNullOrEmpty(curso.capa_curso)) ? curso.capa_curso : "https://via.placeholder.com/60")" alt="Imagem Curso">
+                            <div>
+                                <h5 class="mb-1 fw-semibold">@curso.nome</h5>
+                                <small class="text-muted">
+                                    by @(curso.PerfilProfessor?.Usuario?.nome ?? "Você")
+                                </small>
+                            </div>
+                        </div>
+                        <div class="curso-detalhes">
+                            <i class="bi bi-clock"></i> @curso.carga_horaria h &nbsp;
+                            <i class="bi bi-calendar-event"></i> @curso.data_criacao.ToShortDateString()
+                        </div>
+                        <a href="@Url.Action("Details", "Curso", new { id = curso.id })" class="btn-pagina">Ver Curso</a>
+                    </div>
+                }
+            </div>
+
+            <!-- Coluna da direita -->
+            <div class="col-md-4">
+                <div class="d-flex gap-3 mb-4">
+                    <div class="status-card">
+                        <h2>@ViewData["CursosCompletos"]</h2>
+                        <p class="text-muted">Cursos completos</p>
+                    </div>
+                    <div class="status-card">
+                        <h2>@ViewData["CursosEmProgresso"]</h2>
+                        <p class="text-muted">Cursos ativos</p>
+                    </div>
+
+                </div>
+
+                <h4 class="mb-3">Fóruns Ativos</h4>
+
+                @{
+                    var foruns = ViewData["ForunsAtivos"] as List<edu_for_you.Models.Forum>;
+                }
+
+                @if (foruns != null && foruns.Any())
+                {
+                    foreach (var forum in foruns)
+                    {
+                        <a asp-controller="Forum" asp-action="Details" asp-route-id="@forum.Id" class="card-custom text-decoration-none text-dark d-block">
+                            <i class="bi bi-chat-square-text"></i> @forum.Titulo
+                        </a>
+
+                    }
+                }
+                else
+                {
+                    <div class="card-custom text-muted">
+                        Nenhum fórum ativo no momento.
+                    </div>
+                }
+
+
+                <div class="card-custom mt-4 d-flex align-items-center gap-3">
+                    <div>
+                        <h5>Quer criar um curso?</h5>
+                        <p class="text-muted">Seu perfil de professor te permite criar cursos na plataforma.</p>
+                        <a href="/Curso/Create" class="btn-pagina">Criar Curso</a>
+                    </div>
+                    <img class="img-book" src="~/images/Frame.png" alt="Imagem" />
+                </div>
+            </div>
+        </div>
+    

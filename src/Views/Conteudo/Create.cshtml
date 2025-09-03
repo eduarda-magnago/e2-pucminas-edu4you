@@ -1,0 +1,188 @@
+﻿@model edu_for_you.Models.Conteudo
+
+@{
+    Layout = "_Layout";
+}
+
+
+@{
+    ViewData["Title"] = "Criar Conteúdo";
+}
+
+<style>
+    .btn-create {
+        background-color: #769AC1;
+        color: white;
+        border: none;
+    }
+
+    .btn-create:hover {
+        background-color: #5B7189;
+        color: white;
+    }
+
+    .btn-back {
+        background-color: #CDD6E0;
+        color: white;
+        border: none;
+    }
+
+    .btn-back:hover {
+        background-color: #5B7189;
+        color: white;
+    }
+
+    /* Ajuste para o vídeo */
+    #previewContainer {
+        margin-top: 15px;
+        max-width: 480px; /* largura máxima menor */
+        position: relative;
+        width: 100%;
+        padding-top: 35%; /* altura reduzida para vídeo mais baixo */
+    }
+
+    #previewIframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        border: 0;
+    }
+
+    .btn-save {
+        background-color: #769AC1;
+        color: white;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-save:hover {
+            background-color: #5c7aa1;
+            color: #ffffff;
+        }
+
+    .btn-yellow {
+        background-color: rgba(250, 185, 0, 0.85);
+        color: white;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-yellow:hover {
+            background-color: rgba(250, 185, 0, 1);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+    .botoes-form {
+        margin-top: 20px;
+    }
+</style>
+
+<h1>Criar Conteúdo</h1>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (Model.id_curso == 0)
+            {
+                <div class="form-group">
+                    <label class="control-label">Curso</label>
+                    <select asp-for="id_curso" class="form-control" asp-items="ViewBag.id_curso"></select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="id_curso" />
+            }
+
+            <div class="form-group">
+                <label class="control-label">Nome do Módulo (repita nome ja existente se desejar adicionar esta aula em um módulo já criado)</label>
+                <input asp-for="titulo" class="form-control" />
+                <span asp-validation-for="titulo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Título da Aula</label>
+                <input asp-for="licao" class="form-control" />
+                <span asp-validation-for="licao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Descrição da aula (obrigatório)</label>
+                <textarea asp-for="descricao" class="form-control" rows="5" style="resize: vertical;"></textarea>
+                <span asp-validation-for="descricao" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="data_criacao" value="@DateTime.Now" />
+            <input type="hidden" asp-for="data_atualizacao" value="@DateTime.Now" />
+
+            <div class="form-group">
+                <label class="control-label">URL do Vídeo no Youtube (opcional)</label>
+                <input asp-for="video_curso" class="form-control" oninput="atualizarPreviewVideo(this.value)" />
+                <span asp-validation-for="video_curso" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" id="previewContainer" style="display: none;">
+                <label>Prévia do Vídeo:</label>
+                <iframe id="previewIframe" allowfullscreen></iframe>
+            </div>
+
+            <div class="form-group d-flex mt-4">
+                <a asp-action="Index" asp-route-cursoId="@Model.id_curso" class="btn-yellow">Voltar</a>
+                <input type="submit" value="Criar Conteúdo" class="btn-save ms-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function atualizarPreviewVideo(url) {
+            const container = document.getElementById("previewContainer");
+            const iframe = document.getElementById("previewIframe");
+
+            if (url.includes("youtube.com/watch?v=") || url.includes("youtu.be/")) {
+                let embedUrl = url;
+
+                if (url.includes("watch?v=")) {
+                    embedUrl = url.replace("watch?v=", "embed/");
+                } else if (url.includes("youtu.be/")) {
+                    const id = url.split("youtu.be/")[1];
+                    embedUrl = "https://www.youtube.com/embed/" + id;
+                }
+
+                iframe.src = embedUrl;
+                container.style.display = "block";
+            } else {
+                container.style.display = "none";
+                iframe.src = "";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const campo = document.querySelector('input[name="video_curso"]');
+            if (campo && campo.value) {
+                atualizarPreviewVideo(campo.value);
+            }
+        });
+    </script>
+}
+
+

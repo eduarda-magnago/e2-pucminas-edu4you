@@ -1,0 +1,60 @@
+﻿@model edu_for_you.Models.Usuario
+
+@{
+    ViewData["Title"] = "Meu Perfil";
+}
+
+<link rel="stylesheet" href="~/css/meuperfil.css" />
+
+<h2 class="fw-bold mb-4" style="color: #769AC1;">Meu Perfil</h2>
+
+<div class="row">
+    <!-- Coluna esquerda -->
+    <div class="col-lg-6">
+        <div class="info-box p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                <div class="d-flex align-items-center gap-4 flex-wrap">
+                    <div class="user-photo-frame">
+                        <img src="@Model.foto_perfil" alt="Foto do usuário" class="user-photo-square" />
+                    </div>
+                    <div class="d-flex flex-column user-details">
+                        <h5 class="mb-1">@Model.nome @Model.sobrenome</h5>
+                        <small>@Model.email</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.genero)</strong>
+                    <p>@Html.DisplayFor(model => model.genero)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.dataNascimento)</strong>
+                    <p>@Model.dataNascimento.ToString("dd/MM/yyyy")</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.nivelEnsino)</strong>
+                    <p>@Html.DisplayFor(model => model.nivelEnsino)</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>@Html.DisplayNameFor(model => model.areaInteresse)</strong>
+                    <p>@Html.DisplayFor(model => model.areaInteresse)</p>
+                </div>
+            </div>
+    </div>
+</div>
+
+    <!-- Coluna direita -->
+    <div class="col-lg-6">
+        <div class="sobre-box p-3 rounded mb-4">
+            <h6 class="fw-semibold">Sobre @Model.nome</h6>
+            <p>@Model.Sobre</p>
+        </div>
+
+        <div class="sobre-box p-3 rounded">
+            <h6 class="fw-semibold">Certificações profissionais relevantes</h6>
+            <p>@Model.Certificacoes</p>
+        </div>
+    </div>
+

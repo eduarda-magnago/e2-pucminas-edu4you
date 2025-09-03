@@ -1,0 +1,67 @@
+﻿@model edu_for_you.Models.Curso
+
+@{
+    ViewData["Title"] = "Details";
+
+    var licoes = (int)(ViewData["NumeroDeLicoes"]) < 2 ? "lição" : "lições";
+}
+
+<!-- CSS -->
+<link rel="stylesheet" href="~/css/cursodetails.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<div class="grey-background">
+    <div class="card-highlight mb-5">
+        <div class="row g-4 align-items-center">
+            <!-- Texto do curso -->
+            <div class="col-md-6">
+                <h5 class="fw-bold">@Html.DisplayFor(model => model.nome)</h5>
+                <p class="mb-1"><strong>Número de Lições: </strong>@ViewData["NumeroDeLicoes"] @licoes</p>
+                <p class="mb-1"><strong>Tempo de curso: </strong>@Html.DisplayFor(model => model.carga_horaria) horas</p>
+                <p class="mb-1"><strong>Professor(a): </strong>@Html.DisplayNameFor(model => model.PerfilProfessor)</p>
+                <p class="mb-1"><strong>Estudantes inscritos: </strong>@ViewData["EstudantesInscritos"]</p>
+                <p>
+                    <strong>Avaliações:</strong>
+                    <span class="rating-stars">★★★★★</span>
+                </p>
+
+                <!-- Botões -->
+                <div class="d-flex gap-3 mt-4">
+                    <form asp-action="Inscrever" asp-controller="Matricula" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id_curso" value="@Model.id" />
+                        @if (ViewData["JaMatriculado"] as bool? == true)
+                        {
+                            <a class="btn btn-success px-4 py-2" href="@Url.Action("Index", "Conteudo", new { cursoId = Model.id })">
+                                Ir para o curso
+                            </a>
+                        }
+                        else
+                        {
+                            <form asp-action="Inscrever" asp-controller="Matricula" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id_curso" value="@Model.id" />
+                                <button type="submit" class="comecar-agora">Começar agora</button>
+                            </form>
+                        }
+                    </form>
+                    <button class="btn-2">Veja mais sobre o professor</button>
+                </div>
+            </div>
+
+            <!-- Imagem -->
+            <div class="col-md-6">
+                
+                <img class="card-img-top tamanho-img" src="@Model.capa_curso" alt="Capa do curso">
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalhes do Curso -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-2">Detalhes do Curso</h5>
+        <p>@Html.DisplayFor(model => model.descricao)</p>
+    </div>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model edu_for_you.Models.Conteudo
+
+@{
+    ViewData["Title"] = "Excluir";
+}
+
+<style>
+    h4 {
+        color: #769AC1;
+    }
+
+    .btn-save {
+        background-color: #769AC1;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-save:hover {
+        background-color: #5c7aa1;
+        color: #ffffff;
+    }
+
+    .btn-yellow {
+        background-color: rgba(250, 185, 0, 0.85);
+        color: white;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-yellow:hover {
+            background-color: rgba(250, 185, 0, 1);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+    .botoes-form {
+        margin-top: 20px;
+    }
+</style>
+
+<h4>Tem certeza que deseja excluir este conteúdo?</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <dl class="row">
+            <dt class="col-sm-2">Nome do módulo</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.titulo)</dd>
+
+            <dt class="col-sm-2">Lição</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.licao)</dd>
+
+            <dt class="col-sm-2">Descrição</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.descricao)</dd>
+
+            <dt class="col-sm-2">Link do vídeo</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.video_curso)</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="id_curso" />
+            <input type="hidden" asp-for="id" />
+            <div class="form-group d-flex mt-4">
+                <a asp-action="Index" asp-route-cursoId="@Model.id_curso" class="btn-yellow botoes-form">Voltar</a>
+                <input type="submit" value="Excluir" class="btn-save botoes-form" />
+            </div>
+        </form>
+    </div>
+</div>
+
